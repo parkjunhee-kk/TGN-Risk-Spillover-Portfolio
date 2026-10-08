@@ -2,9 +2,8 @@
 
 **Temporal Graph Network(TGN)** 로 32개 글로벌 자산·요인 간 위험 전이 네트워크를 학습하고, attention 기반 이상 신호가 발생하면 전이 위험이 큰 자산을 제외해 **Equal Risk Contribution(ERC)** 포트폴리오를 방어적으로 재구성하는 동적 자산배분 프로젝트입니다.
 
-> 감마팀 · 12기 파이널 프로젝트
+> Find-a 감마팀 · 12기 파이널 프로젝트
 
-<p align="center"><img src="assets/backtest_result.png" width="780"></p>
 
 ## Pipeline
 
@@ -69,32 +68,8 @@ Step 1–2의 테스트 구간은 모든 모델에서 같습니다. Step 3은 TG
 
 "방향 예측 n일 연속 실패" 규칙(Miss-n)을 추가하면 성과가 크게 나빠집니다. 32개 노드 중 하나라도 연속으로 틀리면 이상으로 판정되는데, 방향 적중률이 50%대라 이 조건이 거의 매일 충족됩니다. 그 결과 방어 모드가 상시 유지되고 회전율이 40배 이상 늘었습니다.
 
-### 3. 위험 전이 네트워크 비교 (TGN · GARCH · TENET)
 
-<p align="center"><img src="assets/network_compare_2020-03-06.png" width="900"></p>
-<p align="center"><img src="assets/event_price_paths_2020-03-06.png" width="900"></p>
 
-사례 시점은 2020-03-06(중심 XLK), 2020-03-12(중심 5Y 기대인플레), 2025-04-10(중심 Nikkei225)입니다. 각 방법이 지목한 연결 노드들의 이벤트 전후 15거래일 가격 경로를 비교했습니다.
-
-## Repository Structure
-
-```
-├── notebooks/
-│   ├── 01_tgn_walk_forward.ipynb                 # TGN rolling window 평가 (core / others)
-│   ├── 02_baseline_benchmarks.ipynb              # LSTM · TCN · Transformer
-│   ├── 03_tgn_final_training.ipynb               # 2010–2017 최종 학습, 가중치 저장
-│   ├── 04_anomaly_detection_tgn_vs_tenet.ipynb   # 이상 탐지 + TGN/TENET 네트워크
-│   ├── 05_network_comparison_garch_tgn_tenet.ipynb
-│   ├── 06_event_price_paths.ipynb
-│   └── 07_backtest_erc_rebalancing.ipynb         # 백테스트
-├── data/README.md                                # 데이터 구성 설명
-├── assets/
-└── requirements.txt
-```
-
-## How to Run
-
-01–06은 Google Colab(GPU)에서 Google Drive의 `Find-A final` 폴더를 마운트해 실행합니다. 07은 로컬에서 `./Find-A final_data`(CSV), `./Find-A final_model`(03에서 저장한 `best_*_all.pth`)을 읽습니다. 경로는 각 노트북 상단에서 바꿀 수 있습니다.
 
 ```bash
 pip install -r requirements.txt
